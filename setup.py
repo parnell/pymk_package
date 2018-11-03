@@ -3,7 +3,7 @@
 from setuptools import setup
 
 setup(name='pymk_package',
-      version='1.0.0',
+      version='1.0.1',
       description='',
       author='Lee Thompson',
       author_email='',
