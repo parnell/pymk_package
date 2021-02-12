@@ -3,6 +3,7 @@ import sys
 import shutil
 import tempfile
 import glob
+cwd = os.path.dirname(os.path.realpath(__file__))
 
 class MakePackage():
     @staticmethod
@@ -23,9 +24,10 @@ class MakePackage():
 
     @staticmethod
     def make_package(cdict):
+        
         package_name = cdict['package_name']
         has_test = cdict['has_test'] == 'y'
-        shutil.copytree('templates', package_name)
+        shutil.copytree(f'{os.path.dirname(cwd)}/templates', package_name)
         os.rename('{}/package_folder'.format(package_name), '{0}/{0}'.format(package_name))
         os.rename('{0}/{0}/package.py'.format(package_name), '{0}/{0}/{0}.py'.format(package_name))
         if not has_test:
@@ -70,7 +72,9 @@ def cl_mk_package():
     Command Line Make Package
     """
     cdict = {}
-    cdict['package_name'] = input("package_name (lowercase): ")
+    path = os.getcwd()
+    bn = os.path.basename(path)
+    cdict['package_name'] = input(f"package_name (lowercase) [{bn}]: ") or bn
     print(cdict['package_name'])
     if os.path.exists(cdict['package_name']):
         raise FileExistsError('The package "%s" already exists'%cdict['package_name'])
